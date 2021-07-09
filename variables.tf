@@ -18,6 +18,12 @@ variable "environment" {
   default     = "prod"
 }
 
+variable "team" {
+  description = "Fake corp team"
+  type        = string
+  default     = "sre"
+}
+
 variable "critical_threshold" {
   description = "Critical CPU threshold"
   type        = string

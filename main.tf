@@ -1,7 +1,15 @@
-# Datadog Provider
+# Terraform Registry
+
+terraform {
+  required_providers {
+    datadog = {
+      source = "DataDog/datadog"
+      version = "3.1.2"
+    }
+  }
+}
 
 provider "datadog" {
-  version = "2.8.0"
   api_url = var.datadog_api_url
   api_key = var.datadog_api_key
   app_key = var.datadog_app_key
@@ -32,12 +40,12 @@ Runbook:
 
 - Review detailed runbook https://fake-corp-wiki.io/foo
 
-john.doe@fakecorp.com
+@slack-${var.team}-channel
 MESSAGE
 
   query = "avg(last_5m):avg:system.cpu.user{env:${var.environment}} by {host} >= ${var.critical_threshold}"
 
-  thresholds = {
+  monitor_thresholds {
     warning           = "0.3"
     warning_recovery  = "0.2"
     critical          = "${var.critical_threshold}"
@@ -51,5 +59,7 @@ MESSAGE
   timeout_h    = 60
   include_tags = true
 
-  tags = ["env:${var.environment}", "team:sre-ops", "tf_module:true"]
+  priority = 1
+
+  tags = ["env:${var.environment}", "team:${var.team}", "tf_module:true"]
 }
